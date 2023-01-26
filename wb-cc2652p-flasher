@@ -1,9 +1,10 @@
 #!/bin/bash
 
-if [ -z "$1" ]
+if [ "$#" -ne 2 ];
   then
     echo "Usage:"
-    echo "wb-cc2652p-flasher FILENAME.hex"
+    echo "wb-cc2652p-flasher /path/to/device firmware.hex"
+    exit 1
 fi
 
 RTS_GPIO=9
@@ -14,14 +15,14 @@ then
 	echo out > /sys/class/gpio/gpio$RTS_GPIO/direction
 fi
 
-if [ -e $1 ]
+if [ -e $2 ]
 then
 	echo 1 > /sys/class/gpio/gpio$RTS_GPIO/value
 	sleep 1
 	echo 0 > /sys/class/gpio/gpio$RTS_GPIO/value
 	sleep 1
 
-	cc2538-bsl.py -evw -p $PORT $1
+	cc2538-bsl.py -evw -p $1 $2
 else
 	echo "Firware file *.hex not found"
 fi
