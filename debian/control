@@ -1,4 +1,4 @@
-Source: cc2538-bsl
+Source: wb-cc2652p-flasher
 Section: unknown
 Priority: extra
 Maintainer: Wiren Board Team <info@wirenboard.com>
@@ -10,7 +10,7 @@ Build-Depends: dh-python,
 Standards-Version: 4.5.0
 Homepage: https://github.com/wirenboard/cc2538-bsl
 
-Package: cc2538-bsl
+Package: wb-cc2652p-flasher
 Architecture: all
 Depends: ${python3:Depends}, 
          ${misc:Depends}, 
