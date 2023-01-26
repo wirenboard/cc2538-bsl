@@ -2,21 +2,14 @@
 
 if [ "$#" -ne 2 ];
   then
-    echo "Usage:"
-    echo "wb-cc2652p-flasher <module number> <firmware file>"
+    echo "Usage: wb-cc2652p-flasher <module number> <firmware file>"
     exit 1
 fi
 
-if [[ $1 == '1' ]]; then
-    RTS_GPIO=36
-elif [[ $1 == '2' ]]; then
-    RTS_GPIO=84
-elif [[ $1 == '3' ]]; then
-    RTS_GPIO=138
-elif [[ $1 == '4' ]]; then
-    RTS_GPIO=270
-else
-    echo "Incorrect module number, must me 1-4"
+RTS_GPIO=`gpiofind "MOD$1 RTS" | awk '{print $2}'`
+
+if [ -z "$RTS_GPIO" ]; then
+    echo "Cannot find GPIO RTS for module $1"
     exit 1
 fi
 
@@ -28,7 +21,7 @@ fi
 
 if [ -e $2 ]
 then
-    echo "Using RTS_GPIO $RTS_GPIO"
+    echo "Using RTS_GPIO $GPIO_DEVICE:$GPIO_PIN"
     echo 1 > /sys/class/gpio/gpio$RTS_GPIO/value
     sleep 1
     echo 0 > /sys/class/gpio/gpio$RTS_GPIO/value

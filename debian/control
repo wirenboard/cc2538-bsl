@@ -16,6 +16,7 @@ Depends: ${python3:Depends},
          ${misc:Depends}, 
          python3-serial, 
          python3-intelhex, 
-         python3-magic
+         python3-magic,
+         gpiod
 Description: Texas Instruments CC13xx/CC2538/CC26xx SoC firmware update utility
  The package includes Texas Instruments CC13xx/CC2538/CC26xx SoC firmware update utility.
