@@ -1,19 +1,21 @@
 Source: cc2538-bsl
-Section: admin
-Priority: optional
+Section: unknown
+Priority: extra
 Maintainer: Wiren Board Team <info@wirenboard.com>
-Build-Depends: debhelper (>= 10),
-               dh-python,
-               python3-all,
-               python3-setuptools,
-               pkg-config,
-               config-package-dev
+Build-Depends: dh-python, 
+               debhelper (>= 10), 
+               python3-all, 
+               python3-setuptools, 
+               python3-scripttest
 Standards-Version: 4.5.0
 Homepage: https://github.com/wirenboard/cc2538-bsl
 
 Package: cc2538-bsl
-Section: python
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}
+Depends: ${python3:Depends}, 
+         ${misc:Depends}, 
+         python3-serial, 
+         python3-intelhex, 
+         python3-magic
 Description: Texas Instruments CC13xx/CC2538/CC26xx SoC firmware update utility
  The package includes Texas Instruments CC13xx/CC2538/CC26xx SoC firmware update utility.
