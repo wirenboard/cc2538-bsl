@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+  then
+    echo "Usage:"
+    echo "wb-cc2652p-flasher FILENAME.hex"
+fi
+
+RTS_GPIO=9
+
+if [ ! -e /sys/class/gpio/gpio$RTS_GPIO ]
+then
+	echo $RTS_GPIO > /sys/class/gpio/export
+	echo out > /sys/class/gpio/gpio$RTS_GPIO/direction
+fi
+
+if [ -e $1 ]
+then
+	echo 1 > /sys/class/gpio/gpio$RTS_GPIO/value
+	sleep 1
+	echo 0 > /sys/class/gpio/gpio$RTS_GPIO/value
+	sleep 1
+
+	cc2538-bsl.py -evw -p $PORT $1
+else
+	echo "Firware file *.hex not found"
+fi
