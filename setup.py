@@ -1,6 +1,5 @@
 from setuptools import setup
 
-
 setup(
     name="cc2538-bsl",
     description="Script to communicate with Texas Instruments CC13xx/CC2538/CC26xx Serial Boot Loader .",
