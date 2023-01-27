@@ -1,5 +1,6 @@
 from setuptools import setup
 
+
 setup(
     name="cc2538-bsl",
     description="Script to communicate with Texas Instruments CC13xx/CC2538/CC26xx Serial Boot Loader .",
@@ -19,5 +20,17 @@ setup(
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering",
     ],
-    test_suite="tests",
+    platforms="posix",
+    python_requires=">=3.4",
+    setup_requires=["setuptools_scm"],
+    use_scm_version=lambda: {
+        "version_scheme": "post-release",
+        "local_scheme": "node-and-date",
+        },
+    install_requires=["pip>=10", "setuptools", "wheel", "pyserial"],
+    extras_require={
+        '': ["intelhex"],
+        'intelhex': ["python-magic"]
+    },
+    scripts=["cc2538-bsl.py"],
 )

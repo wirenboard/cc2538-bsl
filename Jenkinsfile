@@ -1,1 +1,1 @@
-buildDebSbuild defaultRunPythonChecks: true
+buildDebSbuild 
