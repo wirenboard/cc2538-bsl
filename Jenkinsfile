@@ -1,1 +1,1 @@
-buildDebSbuild()
+buildDebSbuild defaultTargets: 'current-armhf'
