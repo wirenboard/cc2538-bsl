@@ -2,8 +2,7 @@
 
 set -e
 
-if [ "$#" -ne 2 ];
-  then
+if [ "$#" -ne 2 ]; then
     echo "Usage: wb-cc2652p-flasher <module number> <firmware file>"
     exit 1
 fi
@@ -22,16 +21,17 @@ then
     echo "out" > "/sys/class/gpio/gpio$RTS_GPIO/direction"
 fi
 
-if [ -e "$2" ]
-then
-    # switch zigbee chip into flashing mode using RTS pin
-    echo "Using RTS_GPIO $RTS_GPIO"
-    echo 1 > "/sys/class/gpio/gpio$RTS_GPIO/value"
-    sleep 1
-    echo 0 > "/sys/class/gpio/gpio$RTS_GPIO/value"
-    sleep 1
-
-    cc2538-bsl.py -evw -p "/dev/ttyMOD$1" "$2"
-else
+if [ ! -e "$2" ]; then
     echo "Firmware file $2 not found"
+    exit 1
 fi
+
+# switch zigbee chip into flashing mode using RTS pin
+echo "Using RTS_GPIO $RTS_GPIO"
+echo 1 > "/sys/class/gpio/gpio$RTS_GPIO/value"
+sleep 1
+echo 0 > "/sys/class/gpio/gpio$RTS_GPIO/value"
+sleep 1
+
+cc2538-bsl.py -evw -p "/dev/ttyMOD$1" "$2"
+
