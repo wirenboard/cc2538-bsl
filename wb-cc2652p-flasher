@@ -7,31 +7,25 @@ if [ "$#" -ne 2 ]; then
     exit 1
 fi
 
-# find platform-dependant MOD# RTS pin number
-RTS_GPIO=$(gpiofind "MOD$1 RTS" | awk '{print $2}')
-
-if [ -z "$RTS_GPIO" ]; then
-    echo "Cannot find GPIO RTS for module $1"
-    exit 1
-fi
-
-if [ ! -e "/sys/class/gpio/gpio$RTS_GPIO" ]
-then
-    echo "$RTS_GPIO" > /sys/class/gpio/export
-    echo "out" > "/sys/class/gpio/gpio$RTS_GPIO/direction"
-fi
-
 if [ ! -e "$2" ]; then
     echo "Firmware file $2 not found"
     exit 1
 fi
 
+# find platform-dependant MOD# RTS pin number
+RTS_CHIP=$(gpiofind "MOD$1 RTS" | awk '{print $1}')
+RTS_GPIO=$(gpiofind "MOD$1 RTS" | awk '{print $2}')
+
+if [[ -z "$RTS_GPIO" || -z "$RTS_CHIP" ]]; then
+    echo "Cannot find GPIO RTS for module $1"
+    exit 1
+fi
+
 # switch zigbee chip into flashing mode using RTS pin
 echo "Using RTS_GPIO $RTS_GPIO"
-echo 1 > "/sys/class/gpio/gpio$RTS_GPIO/value"
+gpioset "$RTS_CHIP" $RTS_GPIO=1
 sleep 1
-echo 0 > "/sys/class/gpio/gpio$RTS_GPIO/value"
+gpioset "$RTS_CHIP" $RTS_GPIO=0
 sleep 1
 
 cc2538-bsl.py -evw -p "/dev/ttyMOD$1" "$2"
-
