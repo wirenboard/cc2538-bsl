@@ -1,11 +1,14 @@
 #!/bin/bash
 
+set -e
+
 if [ "$#" -ne 2 ];
   then
     echo "Usage: wb-cc2652p-flasher <module number> <firmware file>"
     exit 1
 fi
 
+# find platform-dependant MOD# RTS pin number
 RTS_GPIO=$(gpiofind "MOD$1 RTS" | awk '{print $2}')
 
 if [ -z "$RTS_GPIO" ]; then
@@ -29,5 +32,5 @@ then
 
     cc2538-bsl.py -evw -p "/dev/ttyMOD$1" "$2"
 else
-    echo "Firmware file *.hex not found"
+    echo "Firmware file $2 not found"
 fi
