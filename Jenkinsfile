@@ -1,1 +1,1 @@
-buildDebSbuild defaultTargets: 'current-armhf'
+buildDebSbuild defaultTargets: 'current-armhf', customReleaseBranchPattern: 'wb'
